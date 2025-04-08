@@ -1,4 +1,5 @@
-name : Docker Image CI
+name: Docker Image CI
+
 on:
   push:
     branches: [ main ]
@@ -6,32 +7,29 @@ on:
     branches: [ main ]
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
-        steps:
-        - name: Checkout code
-          uses: actions/checkout@v2
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-        - name: set up Docker Buildx
-          uses: docker/setup-buildx-action@v2
-        
-        - name: Docker registry login
-          uses: docker/login-action@v2
-          with:
-            registry: ghcr.io
-            username: ${{ github.repository_owner }}
-            password: ${{ secrets.GITHUB_TOKEN }} 
-        
-        - name: Build and push Docker image
-          uses: docker/build-push-action@v2
-          with:
-            context: .
-            push: true
-            tags: |
-             ghcr.io/${{ github.repository_owner }}/getting-started:latest
-             ghcr.io/${{ github.repository_owner }}/getting-started:${{ github.sha }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
+      - name: Docker registry login
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/yousseftarek2911/getting-started:latest
+            ghcr.io/yousseftarek2911/getting-started:${{ github.sha }}
 
-        
